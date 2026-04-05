@@ -51,7 +51,7 @@ export default function Home() {
       <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-primary-dark to-slate-900 text-white">
         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
         <div className="relative mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:py-40">
-          <div className="max-w-3xl">
+          <div className="max-w-3xl animate-slide-up">
             <p className="text-accent font-semibold text-sm uppercase tracking-widest mb-4">
               Agile &middot; Fintech &middot; Trading Platforms
             </p>

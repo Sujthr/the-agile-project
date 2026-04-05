@@ -1,10 +1,37 @@
 "use client";
 
-import { useState } from "react";
-import { Send, ExternalLink, Mail, MapPin } from "lucide-react";
+import { useState, type FormEvent } from "react";
+import { Send, ExternalLink, Mail, MapPin, CheckCircle, AlertCircle } from "lucide-react";
+
+type FormState = "idle" | "sending" | "success" | "error";
 
 export default function ContactPage() {
-  const [submitted, setSubmitted] = useState(false);
+  const [state, setState] = useState<FormState>("idle");
+
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setState("sending");
+
+    const form = e.currentTarget;
+    const data = new FormData(form);
+
+    try {
+      const res = await fetch("https://formspree.io/f/xeookoar", {
+        method: "POST",
+        body: data,
+        headers: { Accept: "application/json" },
+      });
+
+      if (res.ok) {
+        setState("success");
+        form.reset();
+      } else {
+        setState("error");
+      }
+    } catch {
+      setState("error");
+    }
+  }
 
   return (
     <div className="py-16 sm:py-24">
@@ -20,8 +47,9 @@ export default function ContactPage() {
               I&apos;d love to hear from you.
             </p>
 
-            {submitted ? (
-              <div className="rounded-2xl bg-green-50 border border-green-200 p-8 text-center">
+            {state === "success" ? (
+              <div className="rounded-2xl bg-green-50 border border-green-200 p-8 text-center animate-fade-in">
+                <CheckCircle size={40} className="text-green-600 mx-auto mb-4" />
                 <h2 className="text-xl font-bold text-green-800 mb-2">
                   Message Sent!
                 </h2>
@@ -29,15 +57,15 @@ export default function ContactPage() {
                   Thank you for reaching out. I&apos;ll get back to you within
                   24-48 hours.
                 </p>
+                <button
+                  onClick={() => setState("idle")}
+                  className="mt-6 text-sm font-medium text-green-700 underline hover:text-green-900 transition"
+                >
+                  Send another message
+                </button>
               </div>
             ) : (
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  setSubmitted(true);
-                }}
-                className="space-y-6"
-              >
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
                     <label
@@ -110,11 +138,28 @@ export default function ContactPage() {
                   />
                 </div>
 
+                {state === "error" && (
+                  <div className="flex items-center gap-2 text-sm text-red-600 bg-red-50 rounded-lg px-4 py-3">
+                    <AlertCircle size={16} />
+                    Something went wrong. Please try again or email me directly.
+                  </div>
+                )}
+
                 <button
                   type="submit"
-                  className="inline-flex items-center gap-2 rounded-lg bg-primary px-8 py-3 text-sm font-semibold text-white transition hover:bg-primary-dark"
+                  disabled={state === "sending"}
+                  className="inline-flex items-center gap-2 rounded-lg bg-primary px-8 py-3 text-sm font-semibold text-white transition hover:bg-primary-dark disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  <Send size={16} /> Send Message
+                  {state === "sending" ? (
+                    <>
+                      <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <Send size={16} /> Send Message
+                    </>
+                  )}
                 </button>
               </form>
             )}

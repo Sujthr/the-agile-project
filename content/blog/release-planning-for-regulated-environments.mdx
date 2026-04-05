@@ -1,0 +1,94 @@
+---
+title: "Release Planning for Regulated Environments"
+date: "2025-09-15"
+excerpt: "Releasing software in fintech isn't just about shipping code — it's about navigating regulatory windows, change advisory boards, and audit requirements. Here's a practical framework."
+category: "Software Delivery"
+tags: ["release", "compliance", "devops", "fintech"]
+---
+
+## Why Release Planning Is Different in Fintech
+
+In a typical SaaS company, you deploy when the code is ready. In fintech, deployment involves:
+
+- **Change Advisory Board (CAB) approval** — sometimes days in advance
+- **Regulatory filing windows** — certain changes require advance notice to regulators
+- **Market closure dependencies** — you can't deploy during trading hours
+- **Rollback requirements** — regulators may require proven rollback procedures
+- **Audit trail documentation** — who approved what, when, and why
+
+This doesn't mean you can't be agile. It means your release process needs to be engineered as carefully as your software.
+
+## The Release Planning Framework
+
+### 1. Release Train Cadence
+
+Adopt a **release train** model: fixed deployment windows with flexible scope.
+
+I recommend:
+- **Weekly maintenance window** — bug fixes, config changes, minor improvements
+- **Bi-weekly feature releases** — aligned with sprint completion
+- **Monthly major releases** — larger features requiring extended testing
+- **Emergency hotfix process** — bypass CAB for critical production issues (with post-hoc review)
+
+### 2. Release Readiness Checklist
+
+Every release should satisfy this before going to CAB:
+
+```
+□ All stories in "Done" status with acceptance criteria met
+□ Regression test suite passing (>95% coverage)
+□ Performance benchmarks met (response time, throughput)
+□ Security scan completed (SAST/DAST)
+□ Rollback procedure documented and tested
+□ Change request submitted to CAB (if required)
+□ Release notes prepared for stakeholders
+□ Monitoring dashboards updated for new features
+□ On-call team briefed on changes
+```
+
+### 3. Deployment Sequence
+
+For trading platforms, I follow this sequence:
+
+1. **Pre-market (5 AM - 7 AM)**: Deploy to production
+2. **Pre-market validation (7 AM - 8:30 AM)**: Smoke tests with ops team
+3. **Market open monitoring (9 AM - 10 AM)**: Intensive monitoring first hour
+4. **Steady state**: Normal monitoring through the day
+5. **Post-market review**: Any issues logged and triaged
+
+If anything fails at step 2, rollback before market open. No exceptions.
+
+## Feature Flags: Your Best Friend
+
+Feature flags are essential in regulated environments because they let you:
+
+- **Deploy code without releasing functionality** — separate deployment from business go-live
+- **Gradually roll out features** — start with internal users, then select clients, then everyone
+- **Instant kill switch** — disable a feature without deploying code
+- **A/B test safely** — compare behavior without full commitment
+
+### Implementation Tips
+
+- Use a dedicated feature flag service (LaunchDarkly, Unleash, or even a simple config service)
+- Every flag should have an owner, a purpose, and an expiry date
+- Clean up flags after full rollout — flag debt is real
+- Audit flag changes the same way you audit code changes
+
+## Audit Trail Architecture
+
+Regulators care about **who did what, when, and why**. Build this into your release process:
+
+1. **Automated change log** — generated from git commits and Jira tickets
+2. **Approval chain** — CAB approval linked to deployment record
+3. **Deployment log** — timestamp, deployer, version, environment
+4. **Rollback log** — if you rolled back, capture why and the impact
+
+Store these records for the retention period your regulator requires (often 5-7 years in financial services).
+
+## Key Takeaways
+
+1. Use release trains with fixed windows and flexible scope
+2. Build a comprehensive release readiness checklist
+3. Never deploy during market hours — plan around them
+4. Feature flags decouple deployment from release, giving you agility within constraints
+5. Audit trails aren't optional — build them into your release pipeline from day one

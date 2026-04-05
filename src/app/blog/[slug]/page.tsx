@@ -3,6 +3,8 @@ import Link from "next/link";
 import { ArrowLeft, Clock, Calendar, Tag } from "lucide-react";
 import { getAllPosts, getPostBySlug } from "@/lib/blog";
 import { MDXRemote } from "next-mdx-remote/rsc";
+import { ArticleJsonLd } from "@/components/JsonLd";
+import ReadingProgress from "@/components/ReadingProgress";
 import type { Metadata } from "next";
 
 interface Props {
@@ -43,6 +45,13 @@ export default async function BlogPost({ params }: Props) {
 
   return (
     <article className="py-16 sm:py-24">
+      <ReadingProgress />
+      <ArticleJsonLd
+        title={post.title}
+        description={post.excerpt}
+        date={post.date}
+        slug={post.slug}
+      />
       <div className="mx-auto max-w-3xl px-6">
         {/* Breadcrumb */}
         <Link

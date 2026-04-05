@@ -1,0 +1,89 @@
+---
+title: "Scaling Agile Teams Without Losing Speed"
+date: "2025-08-20"
+excerpt: "Adding more people to a project should accelerate delivery — but in practice, it often slows things down. Here's how to scale Agile teams effectively."
+category: "Agile Frameworks"
+tags: ["scaling", "safe", "team-structure", "leadership"]
+---
+
+## The Scaling Paradox
+
+Fred Brooks told us in 1975 that adding people to a late project makes it later. Yet organizations keep doing it. Why? Because scaling pressure is real — you have more features to build, more markets to enter, more competitors to outrun.
+
+The question isn't whether to scale. It's **how to scale without losing the speed and quality that made your small team effective**.
+
+## Signs You Need to Scale
+
+Before adding teams, confirm you actually have a scaling problem and not an efficiency problem:
+
+- **Sustained backlog growth** — your backlog is growing faster than you can deliver, consistently over 3+ sprints
+- **Multi-domain complexity** — your product spans domains that require deep, separate expertise
+- **Deployment bottlenecks** — teams are waiting on each other to release
+- **Context switching** — your team is spread across too many unrelated features
+
+If your issue is unclear requirements, poor prioritization, or excessive meetings, adding teams won't help.
+
+## The Team Topology Approach
+
+I've found the **Team Topologies** model (Skelton & Pais) works exceptionally well for fintech:
+
+### Stream-Aligned Teams
+These are your primary delivery teams, organized around a flow of work:
+- **Order Management** team — owns the full order lifecycle
+- **Market Data** team — owns pricing, feeds, and charting
+- **Client Onboarding** team — owns the client journey
+
+### Platform Teams
+These teams provide shared capabilities:
+- **Infrastructure/DevOps** team — CI/CD, monitoring, cloud
+- **Shared Services** team — authentication, notifications, audit
+
+### Enabling Teams
+These teams help others improve:
+- **Architecture** team — guidance, not gatekeeping
+- **Quality Engineering** team — test automation frameworks
+
+## Coordination Without Bureaucracy
+
+Scaling introduces coordination overhead. Minimize it:
+
+### What works:
+- **Scrum of Scrums** — 15-minute daily sync with one representative per team. Focus on dependencies and blockers only.
+- **Shared backlog refinement** — monthly session where all teams review cross-cutting requirements together
+- **API contracts** — teams agree on interfaces, then build independently
+- **Trunk-based development** — everyone commits to main, feature flags manage risk
+
+### What doesn't work:
+- **Separate integration phases** — if you need a "hardening sprint," your process is broken
+- **Central architecture review boards** — they become bottlenecks; embed architects in teams instead
+- **Shared component ownership** — leads to diffusion of responsibility; assign clear ownership
+
+## The Two-Pizza Rule, Refined
+
+Amazon's "two-pizza team" rule is a good starting point, but I'd refine it for fintech:
+
+- **5-7 engineers** per team (including QA)
+- **1 product owner** per team (not shared across teams)
+- **1 scrum master** per 2 teams max
+- **Dedicated DevOps support** — either embedded or on-call from platform team
+
+## Metrics for Scaled Teams
+
+When you scale, your metrics need to evolve:
+
+| Metric | Single Team | Scaled |
+|--------|------------|--------|
+| Velocity | Per team | Normalize, don't aggregate |
+| Cycle time | Individual stories | Per team + cross-team features |
+| Deployment frequency | Overall | Per team (independent deployability) |
+| Lead time | Backlog to production | Include cross-team dependency wait time |
+
+The most important scaled metric is **dependency wait time** — how long does a team wait on another team? If this is growing, your architecture needs decoupling.
+
+## Key Takeaways
+
+1. Confirm you have a scaling problem, not an efficiency problem
+2. Organize teams around business capabilities (stream-aligned), not technical layers
+3. Minimize coordination overhead with lightweight rituals and API contracts
+4. Keep teams small (5-7 engineers) with dedicated product ownership
+5. Track dependency wait time as your primary scaling health metric

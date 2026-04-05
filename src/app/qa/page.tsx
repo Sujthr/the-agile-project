@@ -1,5 +1,6 @@
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
+import { FAQJsonLd } from "@/components/JsonLd";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -57,6 +58,11 @@ const faqs = [
 export default function QAPage() {
   return (
     <div className="py-16 sm:py-24">
+      <FAQJsonLd
+        items={faqs.flatMap((s) =>
+          s.questions.map((q) => ({ question: q.q, answer: q.a }))
+        )}
+      />
       <div className="mx-auto max-w-4xl px-6">
         <div className="max-w-2xl mb-16">
           <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 tracking-tight">

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PersonJsonLd } from "@/components/JsonLd";
 import {
   ArrowRight,
   Target,
@@ -30,13 +31,25 @@ const expertise = [
 export default function AboutPage() {
   return (
     <div className="py-16 sm:py-24">
+      <PersonJsonLd />
       <div className="mx-auto max-w-7xl px-6">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-16">
           {/* Main Content */}
-          <div className="lg:col-span-3">
-            <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 tracking-tight mb-8">
-              About Me
-            </h1>
+          <div className="lg:col-span-3 animate-fade-in">
+            {/* Avatar */}
+            <div className="mb-8 flex items-center gap-5">
+              <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white text-2xl font-black shadow-lg">
+                SK
+              </div>
+              <div>
+                <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">
+                  Sujit Kumar Thakur
+                </h1>
+                <p className="text-muted text-sm mt-1">
+                  Senior Project Manager | Fintech & Trading Platforms
+                </p>
+              </div>
+            </div>
 
             <div className="space-y-6 text-slate-600 leading-relaxed">
               <p className="text-lg">
