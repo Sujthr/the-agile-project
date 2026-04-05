@@ -1,0 +1,87 @@
+---
+title: "Jira Done Right: Optimizing for Delivery Teams"
+date: "2025-11-10"
+excerpt: "Jira is powerful but widely misused. Here's how I configure Jira workflows, boards, and reports to actually accelerate delivery instead of creating overhead."
+category: "Agile Frameworks"
+tags: ["jira", "tools", "agile", "workflow"]
+---
+
+## The Problem with Default Jira
+
+Out-of-the-box Jira is designed to be everything to everyone — and ends up being optimal for no one. Most teams I encounter have:
+
+- Too many issue types
+- Overcomplicated workflows with 8+ statuses
+- No meaningful use of epics or labels
+- Dashboards that nobody looks at
+
+Let's fix that.
+
+## The Lean Workflow
+
+For delivery teams, I recommend a **5-status workflow**:
+
+```
+Backlog → Ready → In Progress → In Review → Done
+```
+
+That's it. Every additional status is overhead unless it serves a specific process need (like "Awaiting Deployment" for regulated environments).
+
+### Key Rules
+
+- **Ready** means the story has acceptance criteria, is estimated, and has no blockers
+- **In Review** covers both code review and QA
+- **Done** means deployed and verified (not just "merged to main")
+
+## Board Configuration That Works
+
+### Swimlanes
+Use swimlanes by **Epic** — this gives you instant visibility into which features are moving and which are stuck.
+
+### WIP Limits
+Set WIP limits on "In Progress" and "In Review." A good starting point:
+- In Progress: 2× team size
+- In Review: 1× team size
+
+### Quick Filters
+Create quick filters for:
+- "My Items" — what am I working on?
+- "Blocked" — what needs attention?
+- "No Estimate" — what slipped through refinement?
+
+## Reports That Matter
+
+Skip the burndown chart (it's usually misleading). Focus on:
+
+1. **Cycle Time** — how long does a ticket take from "In Progress" to "Done"?
+2. **Throughput** — how many tickets does the team complete per sprint?
+3. **Aging WIP** — which in-progress items are getting old?
+
+These three metrics tell you more about team health than any burndown ever will.
+
+## Epic Hygiene
+
+Epics should map to **deliverable features**, not vague themes. Each epic should have:
+
+- A clear business outcome
+- A target completion date
+- No more than 15-20 stories
+
+If an epic has 50+ stories, it's not an epic — it's a project. Break it down.
+
+## Automation Quick Wins
+
+Set up these Jira automations to reduce manual overhead:
+
+1. Auto-assign reviewer when status moves to "In Review"
+2. Auto-close sub-tasks when parent moves to Done
+3. Slack notification when items exceed WIP limits
+4. Weekly digest of aging WIP items to the team channel
+
+## Key Takeaways
+
+1. Simplify your workflow — 5 statuses is enough for most teams
+2. WIP limits are the single most impactful change you can make
+3. Track cycle time and throughput, not burndown
+4. Keep epics small and outcome-oriented
+5. Automate the tedious stuff so humans can focus on delivery

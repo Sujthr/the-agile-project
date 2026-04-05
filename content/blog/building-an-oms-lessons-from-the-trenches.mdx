@@ -1,0 +1,63 @@
+---
+title: "Building an OMS: Lessons from the Trenches"
+date: "2025-11-28"
+excerpt: "Order Management Systems are the backbone of any trading platform. Here's what I've learned about delivering OMS projects with Agile — the right way."
+category: "Trading Platforms"
+tags: ["oms", "trading", "architecture", "delivery"]
+---
+
+## What Makes OMS Projects Hard
+
+An Order Management System (OMS) sits at the core of every trading platform. It handles order routing, execution, position management, and risk checks — all in real time.
+
+The challenge? OMS projects have an extremely high **coupling surface**. A change in order validation logic can ripple through risk management, reporting, and regulatory feeds.
+
+## Start with Domain Modeling
+
+Before writing a single line of code, invest time in **domain modeling** with your trading desk and compliance team.
+
+Map out:
+- Order lifecycle states (New → Validated → Routed → Filled → Settled)
+- Exception paths (Rejected, Partially Filled, Cancelled)
+- Integration points (Exchange APIs, FIX protocol, market data feeds)
+
+This exercise alone will save you weeks of rework later.
+
+## Decompose by Capability, Not Component
+
+A common mistake is organizing your Agile teams around technical components (API team, UI team, Database team). For OMS delivery, organize around **business capabilities**:
+
+- **Order Entry & Validation** team
+- **Execution & Routing** team
+- **Risk & Compliance** team
+- **Reporting & Reconciliation** team
+
+Each team owns their slice end-to-end, from UI to database.
+
+## Performance Testing is Not Optional
+
+In OMS delivery, performance testing isn't a nice-to-have — it's existential. Your system needs to handle peak market hours without degradation.
+
+Build load testing into every sprint:
+- Simulate peak order volumes (often 10x normal)
+- Test under network latency scenarios
+- Validate risk check latency under load
+
+Use tools like Gatling or k6 and run these tests in your CI pipeline.
+
+## Deployment Strategy
+
+For OMS deployments, I strongly recommend:
+
+1. **Blue-green deployments** to enable instant rollback
+2. **Canary releases** — route 5% of orders through the new version first
+3. **Market-hours awareness** — never deploy during active trading sessions
+4. **Runbook automation** — every deployment step should be scripted
+
+## Key Takeaways
+
+1. Invest in domain modeling upfront — it pays dividends throughout delivery
+2. Organize teams by business capability, not technical layer
+3. Make performance testing a sprint-level activity, not a phase
+4. Your deployment strategy is as important as your code
+5. Build for observability — distributed tracing, structured logging, real-time dashboards
