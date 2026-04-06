@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { getAllPosts, getCategories } from "@/lib/blog";
+import BlogCategoryFilter from "@/components/BlogCategoryFilter";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -9,9 +10,17 @@ export const metadata: Metadata = {
     "Articles on Agile delivery, fintech engineering, trading platforms, and product management.",
 };
 
-export default function BlogPage() {
-  const posts = getAllPosts();
+export default async function BlogPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const { category } = await searchParams;
+  const allPosts = getAllPosts();
   const categories = getCategories();
+  const posts = category
+    ? allPosts.filter((post) => post.category === category)
+    : allPosts;
 
   return (
     <div className="py-16 sm:py-24">
@@ -28,19 +37,7 @@ export default function BlogPage() {
         </div>
 
         {/* Categories */}
-        <div className="flex flex-wrap gap-2 mb-12">
-          <span className="px-4 py-2 rounded-full bg-primary text-white text-sm font-medium">
-            All
-          </span>
-          {categories.map((cat) => (
-            <span
-              key={cat}
-              className="px-4 py-2 rounded-full bg-slate-100 text-slate-600 text-sm font-medium hover:bg-slate-200 transition cursor-pointer"
-            >
-              {cat}
-            </span>
-          ))}
-        </div>
+        <BlogCategoryFilter categories={categories} />
 
         {/* Posts Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
